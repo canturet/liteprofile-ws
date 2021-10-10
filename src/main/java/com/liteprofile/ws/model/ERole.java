@@ -2,7 +2,8 @@ package com.liteprofile.ws.model;
 
 public enum ERole {
 
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_MODERATOR,
+    ROLE_ADMIN
 
 }
