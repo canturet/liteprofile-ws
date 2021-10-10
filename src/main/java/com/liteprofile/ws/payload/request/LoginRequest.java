@@ -1,11 +1,11 @@
-package com.liteprofile.ws.payload.dto;
+package com.liteprofile.ws.payload.request;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class LoginDto {
+public class LoginRequest {
 
     @NotBlank
     private String username;

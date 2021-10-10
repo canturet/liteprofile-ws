@@ -1,4 +1,4 @@
-package com.liteprofile.ws.payload.dto;
+package com.liteprofile.ws.payload.request;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
-public class RegisterDto {
+public class RegisterRequest {
 
     @NotBlank
     @Size(min = 3, max = 20)
