@@ -1,6 +1,6 @@
-package com.liteprofile.ws.security.jwt;
+package com.liteprofile.ws.utils.security.jwt;
 
-import com.liteprofile.ws.security.user.service.impl.UserDetailsServiceImpl;
+import com.liteprofile.ws.utils.security.user.service.impl.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.liteprofile.ws.security.user.model;
+package com.liteprofile.ws.utils.security.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liteprofile.ws.model.User;

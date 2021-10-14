@@ -1,4 +1,4 @@
-package com.liteprofile.ws.security.jwt;
+package com.liteprofile.ws.utils.security.jwt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

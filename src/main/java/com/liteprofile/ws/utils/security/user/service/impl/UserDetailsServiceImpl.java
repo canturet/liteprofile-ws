@@ -1,8 +1,8 @@
-package com.liteprofile.ws.security.user.service.impl;
+package com.liteprofile.ws.utils.security.user.service.impl;
 
 import com.liteprofile.ws.model.User;
 import com.liteprofile.ws.repository.UserRepository;
-import com.liteprofile.ws.security.user.model.UserDetailsImpl;
+import com.liteprofile.ws.utils.security.user.model.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

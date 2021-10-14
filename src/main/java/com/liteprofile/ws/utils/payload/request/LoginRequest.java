@@ -1,4 +1,4 @@
-package com.liteprofile.ws.payload.request;
+package com.liteprofile.ws.utils.payload.request;
 
 import lombok.Data;
 

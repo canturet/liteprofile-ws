@@ -1,6 +1,8 @@
 package com.liteprofile.ws.service;
 
 import com.liteprofile.ws.model.RefreshToken;
+import com.liteprofile.ws.utils.payload.request.TokenRefreshRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -12,6 +14,6 @@ public interface RefreshTokenService {
 
     RefreshToken verifyExpiration(RefreshToken token);
 
-    int deleteByUserId(Long userId);
+    ResponseEntity<?> refreshToken(TokenRefreshRequest tokenRefreshRequest);
 
 }

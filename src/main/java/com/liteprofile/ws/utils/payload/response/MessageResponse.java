@@ -1,4 +1,4 @@
-package com.liteprofile.ws.payload.response;
+package com.liteprofile.ws.utils.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

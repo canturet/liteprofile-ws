@@ -1,8 +1,8 @@
-package com.liteprofile.ws.security;
+package com.liteprofile.ws.utils.security;
 
-import com.liteprofile.ws.security.jwt.AuthEntryPointJwt;
-import com.liteprofile.ws.security.jwt.AuthTokenFilter;
-import com.liteprofile.ws.security.user.service.impl.UserDetailsServiceImpl;
+import com.liteprofile.ws.utils.security.jwt.AuthEntryPointJwt;
+import com.liteprofile.ws.utils.security.jwt.AuthTokenFilter;
+import com.liteprofile.ws.utils.security.user.service.impl.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
