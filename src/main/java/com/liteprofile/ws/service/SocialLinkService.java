@@ -19,4 +19,5 @@ public interface SocialLinkService {
 
     ResponseEntity<?> deleteSocialLink(Long id);
 
+    List<SocialLink> findSocialLinksByUserId(Long id);
 }

@@ -19,4 +19,6 @@ public interface TextService {
 
     ResponseEntity<?> deleteText(Long id);
 
+    List<Text> getTextsByUserId(Long id);
+
 }

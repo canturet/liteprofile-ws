@@ -65,4 +65,9 @@ public class SocialLinkServiceImpl implements SocialLinkService {
         return ResponseEntity.ok(new MessageResponse(message.getSocialLinkDeletedSuccessfully()));
     }
 
+    @Override
+    public List<SocialLink> findSocialLinksByUserId(Long id) {
+        return socialLinkRepository.findByUserId(id);
+    }
+
 }

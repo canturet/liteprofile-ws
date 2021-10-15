@@ -6,6 +6,7 @@ import com.liteprofile.ws.utils.payload.dto.CustomLinkUpdateDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomLinkService {
 
@@ -18,5 +19,7 @@ public interface CustomLinkService {
     CustomLink updateCustomLink(Long id, CustomLinkUpdateDto customLinkUpdateDto);
 
     ResponseEntity<?> deleteCustomLink(Long id);
+
+    List<CustomLink> getCustomLinksByUserId(Long id);
 
 }

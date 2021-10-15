@@ -63,4 +63,9 @@ public class TextServiceImpl implements TextService {
         textRepository.deleteById(id);
         return ResponseEntity.ok(new MessageResponse(message.getTextDeletedSuccessfully()));
     }
+
+    @Override
+    public List<Text> getTextsByUserId(Long id) {
+        return textRepository.findByUserId(id);
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomLinkServiceImpl implements CustomLinkService {
@@ -65,5 +66,11 @@ public class CustomLinkServiceImpl implements CustomLinkService {
         customLinkRepository.deleteById(id);
         return ResponseEntity.ok(new MessageResponse(message.getCustomLinkDeletedSuccessfully()));
     }
+
+    @Override
+    public List<CustomLink> getCustomLinksByUserId(Long id) {
+        return customLinkRepository.findByUserId(id);
+    }
+
 
 }

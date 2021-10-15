@@ -63,4 +63,9 @@ public class VideoServiceImpl implements VideoService {
         videoRepository.deleteById(id);
         return ResponseEntity.ok(new MessageResponse(message.getVideDeletedSuccessfully()));
     }
+
+    @Override
+    public List<Video> getVideosByUserId(Long id) {
+        return videoRepository.findByUserId(id);
+    }
 }
