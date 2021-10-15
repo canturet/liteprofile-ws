@@ -1,8 +1,8 @@
 package com.liteprofile.ws.controller;
 
-import com.liteprofile.ws.utils.payload.request.LoginRequest;
-import com.liteprofile.ws.utils.payload.request.TokenRefreshRequest;
-import com.liteprofile.ws.utils.payload.request.RegisterRequest;
+import com.liteprofile.ws.utils.payload.dto.LoginDto;
+import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
+import com.liteprofile.ws.utils.payload.dto.RegisterDto;
 import com.liteprofile.ws.service.RefreshTokenService;
 import com.liteprofile.ws.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class AuthController {
     RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        return userService.login(loginRequest);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
+        return userService.login(loginDto);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        return userService.register(registerRequest);
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDto registerDto) {
+        return userService.register(registerDto);
     }
 
-    @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest tokenRefreshRequest) {
-        return refreshTokenService.refreshToken(tokenRefreshRequest);
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshDto tokenRefreshDto) {
+        return refreshTokenService.refreshToken(tokenRefreshDto);
     }
 
 }

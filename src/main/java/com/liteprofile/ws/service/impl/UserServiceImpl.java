@@ -4,8 +4,9 @@ import com.liteprofile.ws.model.ERole;
 import com.liteprofile.ws.model.RefreshToken;
 import com.liteprofile.ws.model.Role;
 import com.liteprofile.ws.model.User;
-import com.liteprofile.ws.utils.payload.request.LoginRequest;
-import com.liteprofile.ws.utils.payload.request.RegisterRequest;
+import com.liteprofile.ws.utils.message.Message;
+import com.liteprofile.ws.utils.payload.dto.LoginDto;
+import com.liteprofile.ws.utils.payload.dto.RegisterDto;
 import com.liteprofile.ws.utils.payload.response.JwtResponse;
 import com.liteprofile.ws.utils.payload.response.MessageResponse;
 import com.liteprofile.ws.repository.RoleRepository;
@@ -49,9 +50,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    Message message;
+
     @Override
-    public ResponseEntity<?> login(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    public ResponseEntity<?> login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(userDetails);
@@ -61,39 +65,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> register(RegisterRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+    public ResponseEntity<?> register(RegisterDto registerDto) {
+        if (userRepository.existsByUsername(registerDto.getUsername())) {
+            return ResponseEntity.badRequest().body(new MessageResponse(message.getUsernameIsAlreadyTaken()));
         }
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse(message.getEmailIsAlreadyInUse()));
         }
-        User user = new User(registerRequest.getUsername(), registerRequest.getEmail(), encoder.encode(registerRequest.getPassword()));
-        Set<String> strRoles = registerRequest.getRole();
+        User user = new User(registerDto.getUsername(), registerDto.getEmail(), encoder.encode(registerDto.getPassword()));
+        Set<String> strRoles = registerDto.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException(message.getRoleNotFound()));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException(message.getRoleNotFound()));
                         roles.add(adminRole);
                         break;
                     case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR).orElseThrow(() -> new RuntimeException(message.getRoleNotFound()));
                         roles.add(modRole);
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException(message.getRoleNotFound()));
                         roles.add(userRole);
                 }
             });
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse(message.getUserRegisteredSuccessfully()));
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(null);
     }
 
 }

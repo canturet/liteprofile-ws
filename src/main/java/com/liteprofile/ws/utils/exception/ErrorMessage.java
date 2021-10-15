@@ -1,8 +1,10 @@
 package com.liteprofile.ws.utils.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -10,8 +12,9 @@ import java.util.Date;
 public class ErrorMessage {
 
     private int statusCode;
-    private Date timestamp;
     private String message;
     private String description;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime timestamp;
 
 }

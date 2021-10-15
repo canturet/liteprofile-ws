@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class TokenControllerAdvice {
@@ -16,9 +16,9 @@ public class TokenControllerAdvice {
     public ErrorMessage handleTokenRefreshException(TokenRefreshException exception, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.FORBIDDEN.value(),
-                new Date(),
                 exception.getMessage(),
-                request.getDescription(false));
+                request.getDescription(false),
+                 LocalDateTime.now());
     }
 
 }

@@ -5,7 +5,7 @@ import com.liteprofile.ws.repository.TokenRefreshRepository;
 import com.liteprofile.ws.repository.UserRepository;
 import com.liteprofile.ws.service.RefreshTokenService;
 import com.liteprofile.ws.utils.exception.TokenRefreshException;
-import com.liteprofile.ws.utils.payload.request.TokenRefreshRequest;
+import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
 import com.liteprofile.ws.utils.payload.response.RefreshTokenResponse;
 import com.liteprofile.ws.utils.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +60,8 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     }
 
     @Override
-    public ResponseEntity<?> refreshToken(TokenRefreshRequest tokenRefreshRequest) {
-        String requestRefreshToken = tokenRefreshRequest.getRefreshToken();
+    public ResponseEntity<?> refreshToken(TokenRefreshDto tokenRefreshDto) {
+        String requestRefreshToken = tokenRefreshDto.getRefreshToken();
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)

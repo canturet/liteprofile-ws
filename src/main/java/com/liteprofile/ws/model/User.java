@@ -24,17 +24,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "'username' alanı zorunludur.")
+    @Size(max = 20, message = "'username' alanı maksimum 20 karakterden oluşabilir.")
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "'email' alanı zorunludur.")
+    @Size(max = 50, message = "'email' alanı maksimum 50 karakterden oluşabilir.")
     @Email
     private String email;
 
-    @NotBlank
-    @Size(max = 120)
+    @NotBlank(message = "'password' alanı zorunludur.")
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
