@@ -3,9 +3,11 @@ package com.liteprofile.ws.controller;
 import com.liteprofile.ws.model.CustomLink;
 import com.liteprofile.ws.model.SocialLink;
 import com.liteprofile.ws.model.Text;
+import com.liteprofile.ws.model.Video;
 import com.liteprofile.ws.service.CustomLinkService;
 import com.liteprofile.ws.service.SocialLinkService;
 import com.liteprofile.ws.service.TextService;
+import com.liteprofile.ws.service.VideoService;
 import com.liteprofile.ws.utils.payload.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ public class PostController {
 
     @Autowired
     TextService textService;
+
+    @Autowired
+    VideoService videoService;
 
     @GetMapping("/get-custom-link/{id}")
     public CustomLink getCustomLinkById(@PathVariable Long id) {
@@ -101,6 +106,31 @@ public class PostController {
     @DeleteMapping("/delete-text/{id}")
     public ResponseEntity<?> deleteText(@PathVariable("id") Long id) {
         return textService.deleteText(id);
+    }
+
+    @GetMapping("/get-video/{id}")
+    public Video getVideoById(@PathVariable Long id) {
+        return videoService.getVideoById(id);
+    }
+
+    @GetMapping("/get-videos")
+    public List<Video> getVideos() {
+        return videoService.getVideos();
+    }
+
+    @PostMapping("/create-video")
+    public Video createVideo(@Valid @RequestBody VideoCreateDto videoCreateDto) {
+        return videoService.createVideo(videoCreateDto);
+    }
+
+    @PutMapping("/update-video/{id}")
+    public Video updateVideo(@Valid @PathVariable("id") Long id, @RequestBody VideoUpdateDto videoUpdateDto) {
+        return videoService.updateVideo(id, videoUpdateDto);
+    }
+
+    @DeleteMapping("/delete-video/{id}")
+    public ResponseEntity<?> deleteVideo(@PathVariable("id") Long id) {
+        return videoService.deleteVideo(id);
     }
 
 }
