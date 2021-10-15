@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.UnexpectedTypeException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

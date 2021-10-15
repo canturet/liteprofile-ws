@@ -2,12 +2,11 @@ package com.liteprofile.ws.controller;
 
 import com.liteprofile.ws.model.CustomLink;
 import com.liteprofile.ws.model.SocialLink;
+import com.liteprofile.ws.model.Text;
 import com.liteprofile.ws.service.CustomLinkService;
 import com.liteprofile.ws.service.SocialLinkService;
-import com.liteprofile.ws.utils.payload.dto.CustomLinkCreateDto;
-import com.liteprofile.ws.utils.payload.dto.CustomLinkUpdateDto;
-import com.liteprofile.ws.utils.payload.dto.SocialLinkCreateDto;
-import com.liteprofile.ws.utils.payload.dto.SocialLinkUpdateDto;
+import com.liteprofile.ws.service.TextService;
+import com.liteprofile.ws.utils.payload.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +24,9 @@ public class PostController {
 
     @Autowired
     SocialLinkService socialLinkService;
+
+    @Autowired
+    TextService textService;
 
     @GetMapping("/get-custom-link/{id}")
     public CustomLink getCustomLinkById(@PathVariable Long id) {
@@ -74,6 +76,31 @@ public class PostController {
     @DeleteMapping("/delete-social-link/{id}")
     public ResponseEntity<?> deleteSocialLink(@PathVariable("id") Long id) {
         return socialLinkService.deleteSocialLink(id);
+    }
+
+    @GetMapping("/get-text/{id}")
+    public Text getTextById(@PathVariable Long id) {
+        return textService.getTextById(id);
+    }
+
+    @GetMapping("/get-texts")
+    public List<Text> getTexts() {
+        return textService.getTexts();
+    }
+
+    @PostMapping("/create-text")
+    public Text createText(@Valid @RequestBody TextCreateDto textCreateDto) {
+        return textService.createText(textCreateDto);
+    }
+
+    @PutMapping("/update-text/{id}")
+    public Text updateText(@Valid @PathVariable("id") Long id, @RequestBody TextUpdateDto textUpdateDto) {
+        return textService.updateText(id, textUpdateDto);
+    }
+
+    @DeleteMapping("/delete-text/{id}")
+    public ResponseEntity<?> deleteText(@PathVariable("id") Long id) {
+        return textService.deleteText(id);
     }
 
 }

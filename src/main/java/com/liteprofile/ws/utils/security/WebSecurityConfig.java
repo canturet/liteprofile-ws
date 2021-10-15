@@ -1,6 +1,5 @@
 package com.liteprofile.ws.utils.security;
 
-import com.liteprofile.ws.model.ERole;
 import com.liteprofile.ws.utils.security.jwt.AuthEntryPointJwt;
 import com.liteprofile.ws.utils.security.jwt.AuthTokenFilter;
 import com.liteprofile.ws.utils.security.user.service.impl.UserDetailsServiceImpl;
@@ -57,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/*").permitAll()
-                .antMatchers("/api/post/*").hasAnyRole("USER","MODERATOR","ADMIN")
+                .antMatchers("/api/post/*").hasAnyRole("USER", "MODERATOR", "ADMIN")
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

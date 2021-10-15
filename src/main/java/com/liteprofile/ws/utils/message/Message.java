@@ -16,4 +16,5 @@ public class Message {
     private String userRegisteredSuccessfully;
     private String customLinkDeletedSuccessfully;
     private String socialLinkDeletedSuccessfully;
+    private String textDeletedSuccessfully;
 }
