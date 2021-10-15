@@ -1,7 +1,7 @@
 package com.liteprofile.ws.service;
 
 import com.liteprofile.ws.model.CustomLink;
-import com.liteprofile.ws.utils.payload.dto.CustomLinkSaveDto;
+import com.liteprofile.ws.utils.payload.dto.CustomLinkCreateDto;
 import com.liteprofile.ws.utils.payload.dto.CustomLinkUpdateDto;
 import org.springframework.http.ResponseEntity;
 
@@ -13,7 +13,7 @@ public interface CustomLinkService {
 
     List<CustomLink> getCustomLinks();
 
-    CustomLink saveCustomLink(CustomLinkSaveDto customLinkSaveDto);
+    CustomLink createCustomLink(CustomLinkCreateDto customLinkCreateDto);
 
     CustomLink updateCustomLink(Long id, CustomLinkUpdateDto customLinkUpdateDto);
 

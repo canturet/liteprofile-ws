@@ -1,12 +1,11 @@
 package com.liteprofile.ws.service.impl;
 
 import com.liteprofile.ws.model.CustomLink;
-import com.liteprofile.ws.model.User;
 import com.liteprofile.ws.repository.CustomLinkRepository;
 import com.liteprofile.ws.service.CustomLinkService;
 import com.liteprofile.ws.service.UserService;
 import com.liteprofile.ws.utils.message.Message;
-import com.liteprofile.ws.utils.payload.dto.CustomLinkSaveDto;
+import com.liteprofile.ws.utils.payload.dto.CustomLinkCreateDto;
 import com.liteprofile.ws.utils.payload.dto.CustomLinkUpdateDto;
 import com.liteprofile.ws.utils.payload.response.MessageResponse;
 import org.modelmapper.ModelMapper;
@@ -42,9 +41,9 @@ public class CustomLinkServiceImpl implements CustomLinkService {
     }
 
     @Override
-    public CustomLink saveCustomLink(CustomLinkSaveDto customLinkSaveDto) {
-        if (userService.getUserById(customLinkSaveDto.getUserId()) != null) {
-            CustomLink customLink = modelMapper.map(customLinkSaveDto, CustomLink.class);
+    public CustomLink createCustomLink(CustomLinkCreateDto customLinkCreateDto) {
+        if (userService.getUserById(customLinkCreateDto.getUserId()) != null) {
+            CustomLink customLink = modelMapper.map(customLinkCreateDto, CustomLink.class);
             return customLinkRepository.save(customLink);
         }
         return null;

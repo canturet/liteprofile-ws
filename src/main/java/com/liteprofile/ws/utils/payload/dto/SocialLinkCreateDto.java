@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
-public class CustomLinkSaveDto {
+public class SocialLinkCreateDto {
 
     @NotNull(message = "'userId' alanı zorunludur.")
     private Long userId;
@@ -18,12 +18,9 @@ public class CustomLinkSaveDto {
     @Size(max = 200, message = "'url' alanı maksimum 200 karakterden oluşabilir.")
     private String url;
 
-    @NotBlank(message = "'title' alanı zorunludur.")
-    @Size(max = 50, message = "'title' alanı maksimum 50 karakterden oluşabilir.")
-    private String title;
-
-    @Size(max = 200, message = "'description' alanı maksimum 200 karakterden oluşabilir.")
-    private String description;
+    @NotBlank(message = "'platform' alanı zorunludur.")
+    @Size(max = 50, message = "'platform' alanı maksimum 50 karakterden oluşabilir.")
+    private String platform;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdDate = LocalDateTime.now();

@@ -15,4 +15,5 @@ public class Message {
     private String roleNotFound;
     private String userRegisteredSuccessfully;
     private String customLinkDeletedSuccessfully;
+    private String socialLinkDeletedSuccessfully;
 }
