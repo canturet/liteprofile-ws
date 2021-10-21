@@ -1,20 +1,13 @@
 package com.liteprofile.ws.controller;
 
-import com.liteprofile.ws.model.CustomLink;
-import com.liteprofile.ws.model.SocialLink;
-import com.liteprofile.ws.model.Text;
-import com.liteprofile.ws.model.Video;
-import com.liteprofile.ws.service.CustomLinkService;
-import com.liteprofile.ws.service.SocialLinkService;
-import com.liteprofile.ws.service.TextService;
-import com.liteprofile.ws.service.VideoService;
+import com.liteprofile.ws.model.*;
+import com.liteprofile.ws.service.*;
 import com.liteprofile.ws.utils.payload.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,6 +25,9 @@ public class PostController {
 
     @Autowired
     VideoService videoService;
+
+    @Autowired
+    BiographyService biographyService;
 
     @GetMapping("/get-custom-link/{id}")
     public ResponseEntity<?> getCustomLinkById(@PathVariable Long id) {
@@ -131,6 +127,31 @@ public class PostController {
     @DeleteMapping("/delete-video/{id}")
     public ResponseEntity<?> deleteVideo(@PathVariable("id") Long id) {
         return ResponseEntity.ok(videoService.deleteVideo(id));
+    }
+
+    @GetMapping("/get-biography/{id}")
+    public ResponseEntity<?> getBiographyById(@PathVariable Long id) {
+        return ResponseEntity.ok(biographyService.getBiographyById(id));
+    }
+
+    @GetMapping("/get-biographies")
+    public ResponseEntity<?> getBiographies() {
+        return ResponseEntity.ok(biographyService.getBiographies());
+    }
+
+    @PostMapping("/create-biography")
+    public ResponseEntity<?> createBiography(@Valid @RequestBody BiographyCreateDto biographyCreateDto) {
+        return ResponseEntity.ok(biographyService.createBiography(biographyCreateDto));
+    }
+
+    @PutMapping("/update-biography/{id}")
+    public ResponseEntity<?> updateBiography(@Valid @PathVariable("id") Long id, @RequestBody BiographyUpdateDto biographyUpdateDto) {
+        return ResponseEntity.ok(biographyService.updateBiography(id, biographyUpdateDto));
+    }
+
+    @DeleteMapping("/delete-biography/{id}")
+    public ResponseEntity<?> deleteBiography(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(biographyService.deleteBiography(id));
     }
 
 }

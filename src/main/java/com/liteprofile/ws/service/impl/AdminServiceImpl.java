@@ -26,6 +26,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     VideoRepository videoRepository;
 
+    @Autowired
+    BiographyRepository biographyRepository;
+
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -49,6 +52,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Video> getVideos() {
         return videoRepository.findAll();
+    }
+
+    @Override
+    public List<Biography> getBiographies() {
+        return biographyRepository.findAll();
     }
 
 }

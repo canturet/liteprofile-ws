@@ -21,4 +21,5 @@ public class Message {
     private String dataNotFound;
     private String refreshTokenNotFound;
     private String expiredRefreshToken;
+    private String biographyDeletedSuccessfully;
 }

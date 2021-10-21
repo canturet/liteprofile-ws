@@ -31,6 +31,9 @@ public class AdminController {
     @Autowired
     VideoService videoService;
 
+    @Autowired
+    BiographyService biographyService;
+
     @GetMapping("/get-users")
     public ResponseEntity<?> getUsers() {
         return ResponseEntity.ok(adminService.getUsers());
@@ -49,6 +52,11 @@ public class AdminController {
     @GetMapping("/get-texts")
     public ResponseEntity<?> getTexts() {
         return ResponseEntity.ok(adminService.getTexts());
+    }
+
+    @GetMapping("/get-biographies")
+    public ResponseEntity<?> getBiographies() {
+        return ResponseEntity.ok(adminService.getBiographies());
     }
 
     @GetMapping("/get-videos")
@@ -79,6 +87,11 @@ public class AdminController {
     @GetMapping("/get-videos-by-user-id/{id}")
     public ResponseEntity<?> getVideosByUserId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(videoService.getVideosByUserId(id));
+    }
+
+    @GetMapping("/get-biographies-by-user-id/{id}")
+    public ResponseEntity<?> getBiographiesByUserId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(biographyService.getBiographiesByUserId(id));
     }
 
 }

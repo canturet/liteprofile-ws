@@ -16,4 +16,6 @@ public interface AdminService {
 
     List<Video> getVideos();
 
+    List<Biography> getBiographies();
+
 }
