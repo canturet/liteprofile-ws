@@ -20,4 +20,5 @@ public interface VideoService {
     ResponseEntity<?> deleteVideo(Long id);
 
     List<Video> getVideosByUserId(Long id);
+
 }

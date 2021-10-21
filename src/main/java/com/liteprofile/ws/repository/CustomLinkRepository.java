@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface CustomLinkRepository extends JpaRepository<CustomLink, Long> {
 
     List<CustomLink> findByUserId(Long id);
+
 }

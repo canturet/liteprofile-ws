@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -21,4 +22,10 @@ public class GlobalExceptionHandler {
     public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, WebRequest request){
         return new ErrorMessage(HttpStatus.BAD_REQUEST.value(),exception.getFieldError().getDefaultMessage(),request.getDescription(false),LocalDateTime.now());
     }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorMessage handleNoSuchElementException(NoSuchElementException exception, WebRequest request){
+        return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),message.getDataNotFound(),request.getDescription(false),LocalDateTime.now());
+    }
+
 }

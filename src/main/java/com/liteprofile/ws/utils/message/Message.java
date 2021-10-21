@@ -18,4 +18,7 @@ public class Message {
     private String socialLinkDeletedSuccessfully;
     private String textDeletedSuccessfully;
     private String videDeletedSuccessfully;
+    private String dataNotFound;
+    private String refreshTokenNotFound;
+    private String expiredRefreshToken;
 }

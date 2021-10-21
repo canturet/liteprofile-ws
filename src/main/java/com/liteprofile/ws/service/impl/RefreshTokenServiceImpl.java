@@ -5,6 +5,7 @@ import com.liteprofile.ws.repository.TokenRefreshRepository;
 import com.liteprofile.ws.repository.UserRepository;
 import com.liteprofile.ws.service.RefreshTokenService;
 import com.liteprofile.ws.utils.exception.TokenRefreshException;
+import com.liteprofile.ws.utils.message.Message;
 import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
 import com.liteprofile.ws.utils.payload.response.RefreshTokenResponse;
 import com.liteprofile.ws.utils.security.jwt.JwtUtils;
@@ -33,6 +34,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     RefreshTokenService refreshTokenService;
 
     @Autowired
+    Message message;
+
+    @Autowired
     JwtUtils jwtUtils;
 
     @Override
@@ -54,7 +58,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
-            throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signin request");
+            throw new TokenRefreshException(token.getToken(), message.getExpiredRefreshToken());
         }
         return token;
     }
@@ -70,7 +74,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
                     return ResponseEntity.ok(new RefreshTokenResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+                        message.getRefreshTokenNotFound()));
     }
 
 }

@@ -32,7 +32,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video getVideoById(Long id) {
-        return videoRepository.findById(id).orElseThrow();
+        return videoRepository.findById(id).orElseThrow(null);
     }
 
     @Override

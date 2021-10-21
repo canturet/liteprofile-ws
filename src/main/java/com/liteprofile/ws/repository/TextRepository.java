@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TextRepository extends JpaRepository<Text, Long> {
+
     List<Text> findByUserId(Long id);
+
 }

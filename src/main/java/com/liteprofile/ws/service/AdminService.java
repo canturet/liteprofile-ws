@@ -5,6 +5,7 @@ import com.liteprofile.ws.model.*;
 import java.util.List;
 
 public interface AdminService {
+
     List<User> getUsers();
 
     List<CustomLink> getCustomLinks();

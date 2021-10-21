@@ -68,4 +68,5 @@ public class TextServiceImpl implements TextService {
     public List<Text> getTextsByUserId(Long id) {
         return textRepository.findByUserId(id);
     }
+
 }
