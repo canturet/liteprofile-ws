@@ -22,4 +22,9 @@ public class Message {
     private String refreshTokenNotFound;
     private String expiredRefreshToken;
     private String biographyDeletedSuccessfully;
+    private String accountDisabled;
+    private String accountConfirmed;
+    private String mailSubject;
+    private String mailAddress;
+    private String mailText;
 }

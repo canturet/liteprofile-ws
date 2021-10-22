@@ -11,6 +11,8 @@ public interface UserService {
 
     ResponseEntity<?> register(RegisterDto registerDto);
 
+    ResponseEntity<?> confirmAccount(String confirmationToken);
+
     User getUserById(Long id);
 
 }

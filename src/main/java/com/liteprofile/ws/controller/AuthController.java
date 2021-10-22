@@ -1,5 +1,6 @@
 package com.liteprofile.ws.controller;
 
+import com.liteprofile.ws.utils.payload.dto.BiographyUpdateDto;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
@@ -30,6 +31,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDto registerDto) {
         return userService.register(registerDto);
+    }
+
+    @GetMapping("/confirm-account")
+    public ResponseEntity<?> confirmAccount(@Valid @RequestParam("token") String token) {
+        return userService.confirmAccount(token);
     }
 
     @PostMapping("/refresh-token")

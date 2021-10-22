@@ -1,9 +1,8 @@
 package com.liteprofile.ws.service.impl;
 
-import com.liteprofile.ws.model.ERole;
-import com.liteprofile.ws.model.RefreshToken;
-import com.liteprofile.ws.model.Role;
-import com.liteprofile.ws.model.User;
+import com.liteprofile.ws.model.*;
+import com.liteprofile.ws.repository.ConfirmationTokenRepository;
+import com.liteprofile.ws.service.EmailService;
 import com.liteprofile.ws.utils.message.Message;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
@@ -17,6 +16,7 @@ import com.liteprofile.ws.service.RefreshTokenService;
 import com.liteprofile.ws.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ConfirmationTokenRepository confirmationTokenRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     RoleRepository roleRepository;
@@ -93,12 +99,33 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(roles);
         userRepository.save(user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+        confirmationTokenRepository.save(confirmationToken);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject(message.getMailSubject());
+        mailMessage.setFrom(message.getMailAddress());
+        mailMessage.setText(message.getMailText()
+                + "http://localhost:8081/api/auth/confirm-account?token=" + confirmationToken.getConfirmationToken());
+        emailService.sendEmail(mailMessage);
         return ResponseEntity.ok(new MessageResponse(message.getUserRegisteredSuccessfully()));
     }
 
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(null);
+    }
+
+    public ResponseEntity<?> confirmAccount(String confirmationToken) {
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if (token != null) {
+            User user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
+            user.setEnabled(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(message.getAccountConfirmed());
+        } else {
+            return null;
+        }
     }
 
 }
