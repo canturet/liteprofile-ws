@@ -27,4 +27,5 @@ public class Message {
     private String mailSubject;
     private String mailAddress;
     private String mailText;
+    private String PlatformDeletedSuccessfully;
 }

@@ -27,10 +27,10 @@ public class SocialLink {
     @Size(max = 200, message = "'url' alanı maksimum 200 karakterden oluşabilir.")
     private String url;
 
-    @NotBlank(message = "'platform' alanı zorunludur.")
-    @Size(max = 50, message = "'platform' alanı maksimum 50 karakterden oluşabilir.")
-    private String platform;
 
+    @NotNull(message = "'platformId' alanı zorunludur.")
+    private Long platformId;
+    
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdDate;
 

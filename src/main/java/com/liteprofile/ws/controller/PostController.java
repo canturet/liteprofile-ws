@@ -3,12 +3,22 @@ package com.liteprofile.ws.controller;
 import com.liteprofile.ws.model.*;
 import com.liteprofile.ws.service.*;
 import com.liteprofile.ws.utils.payload.dto.*;
+import com.liteprofile.ws.utils.payload.response.ResponseFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Transactional
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/post")
@@ -29,6 +39,8 @@ public class PostController {
     @Autowired
     BiographyService biographyService;
 
+    @Autowired
+    PlatformService platformService;
     @GetMapping("/get-custom-link/{id}")
     public ResponseEntity<?> getCustomLinkById(@PathVariable Long id) {
         return ResponseEntity.ok(customLinkService.getCustomLinkById(id));
@@ -154,4 +166,43 @@ public class PostController {
         return ResponseEntity.ok(biographyService.deleteBiography(id));
     }
 
+    @PostMapping("/create-platform")
+    public ResponseEntity<?> createPlatform(@ModelAttribute PlatformCreateDto platformCreateDto) throws IOException {
+        return ResponseEntity.ok(platformService.createPlatform(platformCreateDto));
+    }
+    @PutMapping("/update-platform/{id}")
+    public ResponseEntity<?> updatePlatform(@Valid @PathVariable("id") Long id,@ModelAttribute PlatformUpdateDto platformUpdateDto) throws IOException {
+        return ResponseEntity.ok(platformService.updatePlatform(id,platformUpdateDto));
+    }
+    @DeleteMapping("/delete-platform/{id}")
+    public ResponseEntity<?> deletePlatform(@PathVariable("id") Long id){
+        return ResponseEntity.ok(platformService.deletePlatform(id));
+    }
+    @GetMapping("/get-platforms")
+    public ResponseEntity<List<ResponseFile>> getPlatforms() {
+        List<ResponseFile> files = platformService.getAllFiles().map(dbFile -> {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/files/")
+                    .path(dbFile.getId().toString())
+                    .toUriString();
+
+            return new ResponseFile(
+                    dbFile.getPlatformName(),
+                    fileDownloadUri,
+                    dbFile.getPlatformType(),
+                    dbFile.getData().length);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
+
+    @GetMapping("/get-platform/{id}")
+    public ResponseEntity<byte[]> getPlatformById(@PathVariable Long id) {
+        Platform fileDB = platformService.getPlatformById(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getPlatformName() + "\"")
+                .body(fileDB.getData());
+    }
 }

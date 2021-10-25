@@ -1,7 +1,10 @@
 package com.liteprofile.ws.service.impl;
 
+import com.liteprofile.ws.model.Platform;
 import com.liteprofile.ws.model.SocialLink;
+import com.liteprofile.ws.repository.PlatformRepository;
 import com.liteprofile.ws.repository.SocialLinkRepository;
+import com.liteprofile.ws.service.PlatformService;
 import com.liteprofile.ws.service.SocialLinkService;
 import com.liteprofile.ws.service.UserService;
 import com.liteprofile.ws.utils.message.Message;
@@ -30,6 +33,9 @@ public class SocialLinkServiceImpl implements SocialLinkService {
     @Autowired
     Message message;
 
+    @Autowired
+    PlatformService platformService;
+
     @Override
     public SocialLink getSocialLinkById(Long id) {
         return socialLinkRepository.findById(id).orElseThrow();
@@ -43,7 +49,9 @@ public class SocialLinkServiceImpl implements SocialLinkService {
     @Override
     public SocialLink createSocialLink(SocialLinkCreateDto socialLinkCreateDto) {
         if (userService.getUserById(socialLinkCreateDto.getUserId()) != null) {
+            Platform platform = platformService.getPlatformByPlatformName(socialLinkCreateDto.getPlatformName());
             SocialLink socialLink = modelMapper.map(socialLinkCreateDto, SocialLink.class);
+            socialLink.setPlatformId(platform.getId());
             return socialLinkRepository.save(socialLink);
         }
         return null;
@@ -51,9 +59,10 @@ public class SocialLinkServiceImpl implements SocialLinkService {
 
     @Override
     public SocialLink updateSocialLink(Long id, SocialLinkUpdateDto socialLinkUpdateDto) {
+        Platform platform = platformService.getPlatformByPlatformName(socialLinkUpdateDto.getPlatformName());
         SocialLink existingSocialLink = socialLinkRepository.findById(id).orElseThrow();
         existingSocialLink.setUrl(socialLinkUpdateDto.getUrl());
-        existingSocialLink.setPlatform(socialLinkUpdateDto.getPlatform());
+        existingSocialLink.setPlatformId(platform.getId());
         existingSocialLink.setUpdatedDate(socialLinkUpdateDto.getUpdatedDate());
         return socialLinkRepository.save(existingSocialLink);
     }
