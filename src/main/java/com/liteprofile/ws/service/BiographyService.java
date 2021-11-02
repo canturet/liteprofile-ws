@@ -5,6 +5,7 @@ import com.liteprofile.ws.utils.payload.dto.BiographyCreateDto;
 import com.liteprofile.ws.utils.payload.dto.BiographyUpdateDto;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BiographyService {
@@ -13,9 +14,9 @@ public interface BiographyService {
 
     List<Biography> getBiographies();
 
-    Biography createBiography(BiographyCreateDto biographyCreateDto);
+    Biography createBiography(BiographyCreateDto biographyCreateDto) throws IOException;
 
-    Biography updateBiography(Long id, BiographyUpdateDto biographyUpdateDto);
+    Biography updateBiography(Long id, BiographyUpdateDto biographyUpdateDto) throws IOException;
 
     ResponseEntity<?> deleteBiography(Long id);
 

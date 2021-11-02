@@ -54,7 +54,7 @@ public class PlatformServiceImpl implements PlatformService {
     public Platform createPlatform(PlatformCreateDto platformCreateDto) throws IOException {
         String fileName = StringUtils.cleanPath(platformCreateDto.getImage().getOriginalFilename());
         Platform FileDB = new Platform(platformCreateDto.getPlatformName(),fileName,platformCreateDto.getImage().getContentType() ,platformCreateDto.getImage().getBytes(), LocalDateTime.now());
-        String folder = "photos/";
+        String folder = "PlatformPhotos/";
         Path path = Paths.get(folder+platformCreateDto.getImage().getOriginalFilename());
         Files.write(path,platformCreateDto.getImage().getBytes());
         return platformRepository.save(FileDB);
@@ -72,7 +72,7 @@ public class PlatformServiceImpl implements PlatformService {
         existingPlatform.setPlatformType(platformUpdateDto.getImage().getContentType());
         existingPlatform.setData(platformUpdateDto.getImage().getBytes());
         existingPlatform.setUpdatedDate(platformUpdateDto.getUpdatedDate());
-        String folder = "photos-updated/";
+        String folder = "PlatformPhotos/";
         Path path = Paths.get(folder+platformUpdateDto.getImage().getOriginalFilename());
         Files.write(path,platformUpdateDto.getImage().getBytes());
         return platformRepository.save(existingPlatform);

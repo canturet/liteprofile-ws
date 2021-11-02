@@ -5,11 +5,9 @@ import com.liteprofile.ws.service.*;
 import com.liteprofile.ws.utils.payload.dto.*;
 import com.liteprofile.ws.utils.payload.response.ResponseFile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -142,9 +140,7 @@ public class PostController {
     }
 
     @GetMapping("/get-biography/{id}")
-    public ResponseEntity<?> getBiographyById(@PathVariable Long id) {
-        return ResponseEntity.ok(biographyService.getBiographyById(id));
-    }
+    public ResponseEntity<?> getBiographyById(@PathVariable Long id) {return ResponseEntity.ok(biographyService.getBiographyById(id));}
 
     @GetMapping("/get-biographies")
     public ResponseEntity<?> getBiographies() {
@@ -152,12 +148,12 @@ public class PostController {
     }
 
     @PostMapping("/create-biography")
-    public ResponseEntity<?> createBiography(@Valid @RequestBody BiographyCreateDto biographyCreateDto) {
+    public ResponseEntity<?> createBiography(@ModelAttribute BiographyCreateDto biographyCreateDto) throws IOException {
         return ResponseEntity.ok(biographyService.createBiography(biographyCreateDto));
     }
 
     @PutMapping("/update-biography/{id}")
-    public ResponseEntity<?> updateBiography(@Valid @PathVariable("id") Long id, @RequestBody BiographyUpdateDto biographyUpdateDto) {
+    public ResponseEntity<?> updateBiography(@Valid @PathVariable("id") Long id, @ModelAttribute BiographyUpdateDto biographyUpdateDto) throws IOException {
         return ResponseEntity.ok(biographyService.updateBiography(id, biographyUpdateDto));
     }
 
@@ -183,7 +179,7 @@ public class PostController {
         List<ResponseFile> files = platformService.getAllFiles().map(dbFile -> {
             String fileDownloadUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/files/")
+                    .path("PlatformPhotos/")
                     .path(dbFile.getId().toString())
                     .toUriString();
 
@@ -198,11 +194,18 @@ public class PostController {
     }
 
     @GetMapping("/get-platform/{id}")
-    public ResponseEntity<byte[]> getPlatformById(@PathVariable Long id) {
-        Platform fileDB = platformService.getPlatformById(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getPlatformName() + "\"")
-                .body(fileDB.getData());
+    public ResponseFile
+    getPlatformById(@PathVariable Long id) {
+        Platform selectedPlatform = platformService.getPlatformById(id);
+        String fileDownloadUri = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("PlatformPhotos/")
+                .path(selectedPlatform.getId().toString())
+                .toUriString();
+       return new ResponseFile(
+               selectedPlatform.getPlatformName(),
+               fileDownloadUri,
+               selectedPlatform.getPlatformType(),
+               selectedPlatform.getData().length);
     }
 }

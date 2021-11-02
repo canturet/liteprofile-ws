@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "biography")
 public class Biography {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,4 +35,15 @@ public class Biography {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updatedDate;
 
+
+    @Lob
+    private byte[] data;
+
+    public Biography(Long userId, String name, String description, byte[] data, LocalDateTime createdDate) {
+        this.userId = userId;
+        this.name = name;
+        this.description = description;
+        this.data = data;
+        this.createdDate = createdDate;
+    }
 }

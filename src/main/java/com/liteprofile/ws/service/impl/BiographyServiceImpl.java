@@ -1,6 +1,7 @@
 package com.liteprofile.ws.service.impl;
 
 import com.liteprofile.ws.model.Biography;
+import com.liteprofile.ws.model.Platform;
 import com.liteprofile.ws.repository.BiographyRepository;
 import com.liteprofile.ws.service.BiographyService;
 import com.liteprofile.ws.service.UserService;
@@ -12,7 +13,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,20 +48,27 @@ public class BiographyServiceImpl implements BiographyService {
     }
 
     @Override
-    public Biography createBiography(BiographyCreateDto biographyCreateDto) {
+    public Biography createBiography(BiographyCreateDto biographyCreateDto) throws IOException {
         if (userService.getUserById(biographyCreateDto.getUserId()) != null) {
-            Biography biography = modelMapper.map(biographyCreateDto, Biography.class);
+            Biography biography = new Biography(biographyCreateDto.getUserId(), biographyCreateDto.getName(), biographyCreateDto.getDescription(), biographyCreateDto.getImage().getBytes(), LocalDateTime.now());
+            String folder = "BiographyPhotos/";
+            Path path = Paths.get(folder + biographyCreateDto.getImage().getOriginalFilename());
+            Files.write(path, biographyCreateDto.getImage().getBytes());
             return biographyRepository.save(biography);
         }
         return null;
     }
 
     @Override
-    public Biography updateBiography(Long id, BiographyUpdateDto biographyUpdateDto) {
+    public Biography updateBiography(Long id, BiographyUpdateDto biographyUpdateDto) throws IOException {
         Biography existingBiography = biographyRepository.findById(id).orElseThrow();
         existingBiography.setName(biographyUpdateDto.getName());
         existingBiography.setDescription(biographyUpdateDto.getDescription());
         existingBiography.setUpdatedDate(biographyUpdateDto.getUpdatedDate());
+        existingBiography.setData(biographyUpdateDto.getImage().getBytes());
+        String folder = "BiographyPhotos/";
+        Path path = Paths.get(folder+biographyUpdateDto.getImage().getOriginalFilename());
+        Files.write(path,biographyUpdateDto.getImage().getBytes());
         return biographyRepository.save(existingBiography);
     }
 
