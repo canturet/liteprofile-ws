@@ -1,8 +1,10 @@
 package com.liteprofile.ws.service.impl;
 
+import com.google.zxing.WriterException;
 import com.liteprofile.ws.model.*;
 import com.liteprofile.ws.repository.ConfirmationTokenRepository;
 import com.liteprofile.ws.service.EmailService;
+import com.liteprofile.ws.service.QRCodeGeneratorService;
 import com.liteprofile.ws.utils.message.Message;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
@@ -24,8 +26,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,6 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    QRCodeGeneratorService qrCodeGeneratorService;
 
     @Autowired
     RoleRepository roleRepository;
@@ -116,12 +123,18 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(null);
     }
 
-    public ResponseEntity<?> confirmAccount(String confirmationToken) {
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public ResponseEntity<?> confirmAccount(String confirmationToken) throws IOException, WriterException {
         ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
         if (token != null) {
             User user = userRepository.findByEmailIgnoreCase(token.getUser().getEmail());
             user.setEnabled(true);
             userRepository.save(user);
+            qrCodeGeneratorService.generateQRCode(user.getUsername());
             return ResponseEntity.ok(message.getAccountConfirmed());
         } else {
             return null;

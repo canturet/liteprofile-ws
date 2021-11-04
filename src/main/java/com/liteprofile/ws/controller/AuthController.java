@@ -1,6 +1,6 @@
 package com.liteprofile.ws.controller;
 
-import com.liteprofile.ws.utils.payload.dto.BiographyUpdateDto;
+import com.google.zxing.WriterException;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -34,7 +35,7 @@ public class AuthController {
     }
 
     @GetMapping("/confirm-account")
-    public ResponseEntity<?> confirmAccount(@Valid @RequestParam("token") String token) {
+    public ResponseEntity<?> confirmAccount(@Valid @RequestParam("token") String token) throws IOException, WriterException {
         return userService.confirmAccount(token);
     }
 
