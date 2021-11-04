@@ -4,6 +4,7 @@ import com.google.zxing.WriterException;
 import com.liteprofile.ws.model.User;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
+import com.liteprofile.ws.utils.payload.response.UserProfileResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -19,6 +20,6 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    Optional<User> getUserByUsername(String username);
+    ResponseEntity<?> getUserProfileByUsername(String username);
 
 }

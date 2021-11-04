@@ -2,7 +2,7 @@ package com.liteprofile.ws.service.impl;
 
 import com.google.zxing.WriterException;
 import com.liteprofile.ws.model.*;
-import com.liteprofile.ws.repository.ConfirmationTokenRepository;
+import com.liteprofile.ws.repository.*;
 import com.liteprofile.ws.service.EmailService;
 import com.liteprofile.ws.service.QRCodeGeneratorService;
 import com.liteprofile.ws.utils.message.Message;
@@ -10,8 +10,7 @@ import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
 import com.liteprofile.ws.utils.payload.response.JwtResponse;
 import com.liteprofile.ws.utils.payload.response.MessageResponse;
-import com.liteprofile.ws.repository.RoleRepository;
-import com.liteprofile.ws.repository.UserRepository;
+import com.liteprofile.ws.utils.payload.response.UserProfileResponse;
 import com.liteprofile.ws.utils.security.jwt.JwtUtils;
 import com.liteprofile.ws.utils.security.user.model.UserDetailsImpl;
 import com.liteprofile.ws.service.RefreshTokenService;
@@ -65,6 +64,21 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     Message message;
+
+    @Autowired
+    CustomLinkRepository customLinkRepository;
+
+    @Autowired
+    SocialLinkRepository socialLinkRepository;
+
+    @Autowired
+    TextRepository textRepository;
+
+    @Autowired
+    VideoRepository videoRepository;
+
+    @Autowired
+    BiographyRepository biographyRepository;
 
     @Override
     public ResponseEntity<?> login(LoginDto loginDto) {
@@ -124,8 +138,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public ResponseEntity<?> getUserProfileByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        List<Biography> biographies = biographyRepository.findByUserId(user.get().getId());
+        List<CustomLink> customLinks = customLinkRepository.findByUserId(user.get().getId());
+        List<SocialLink> socialLinks = socialLinkRepository.findByUserId(user.get().getId());
+        List<Text> texts = textRepository.findByUserId(user.get().getId());
+        List<Video> videos = videoRepository.findByUserId(user.get().getId());
+        return ResponseEntity.ok(new UserProfileResponse(biographies, customLinks, socialLinks, texts, videos));
     }
 
     public ResponseEntity<?> confirmAccount(String confirmationToken) throws IOException, WriterException {
