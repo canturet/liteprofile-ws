@@ -20,6 +20,6 @@ public interface BiographyService {
 
     ResponseEntity<?> deleteBiography(Long id);
 
-    List<Biography> getBiographiesByUserId(Long id);
+    Biography getBiographyByUserId(Long id);
 
 }

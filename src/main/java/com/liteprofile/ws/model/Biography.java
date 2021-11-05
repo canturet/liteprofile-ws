@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "biography")
 public class Biography {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,11 +39,12 @@ public class Biography {
     @Lob
     private byte[] data;
 
-    public Biography(Long userId, String name, String description, byte[] data, LocalDateTime createdDate) {
+    public Biography(Long userId, String name, String description, byte[] data, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.userId = userId;
         this.name = name;
         this.description = description;
         this.data = data;
         this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 }

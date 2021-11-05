@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QRCodeGeneratorImpl implements QRCodeGeneratorService {
 
-    private static final String QR_CODE_IMAGE_PATH = "./src/main/resources/static/img/qrcodes/QRCode-";
+    private static final String QR_CODE_IMAGE_PATH = "./src/main/resources/static/img/qr_codes/QRCode-";
     private static final String USER_PROFILE_PATH = "http://localhost:8081/api/user/";
 
     public void generateQRCode(String username)

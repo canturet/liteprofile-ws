@@ -1,7 +1,6 @@
 package com.liteprofile.ws.service.impl;
 
 import com.liteprofile.ws.model.Biography;
-import com.liteprofile.ws.model.Platform;
 import com.liteprofile.ws.repository.BiographyRepository;
 import com.liteprofile.ws.service.BiographyService;
 import com.liteprofile.ws.service.UserService;
@@ -9,11 +8,10 @@ import com.liteprofile.ws.utils.message.Message;
 import com.liteprofile.ws.utils.payload.dto.BiographyCreateDto;
 import com.liteprofile.ws.utils.payload.dto.BiographyUpdateDto;
 import com.liteprofile.ws.utils.payload.response.MessageResponse;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,14 +23,13 @@ import java.util.List;
 @Service
 public class BiographyServiceImpl implements BiographyService {
 
+    private static final String BIOGRAPHY_IMAGE_PATH = "./src/main/resources/static/img/biography_images/";
+
     @Autowired
     BiographyRepository biographyRepository;
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    ModelMapper modelMapper;
 
     @Autowired
     Message message;
@@ -50,9 +47,8 @@ public class BiographyServiceImpl implements BiographyService {
     @Override
     public Biography createBiography(BiographyCreateDto biographyCreateDto) throws IOException {
         if (userService.getUserById(biographyCreateDto.getUserId()) != null) {
-            Biography biography = new Biography(biographyCreateDto.getUserId(), biographyCreateDto.getName(), biographyCreateDto.getDescription(), biographyCreateDto.getImage().getBytes(), LocalDateTime.now());
-            String folder = "BiographyPhotos/";
-            Path path = Paths.get(folder + biographyCreateDto.getImage().getOriginalFilename());
+            Biography biography = new Biography(biographyCreateDto.getUserId(), biographyCreateDto.getName(), biographyCreateDto.getDescription(), biographyCreateDto.getImage().getBytes(), LocalDateTime.now(), LocalDateTime.now());
+            Path path = Paths.get(BIOGRAPHY_IMAGE_PATH + biographyCreateDto.getImage().getOriginalFilename());
             Files.write(path, biographyCreateDto.getImage().getBytes());
             return biographyRepository.save(biography);
         }
@@ -66,9 +62,8 @@ public class BiographyServiceImpl implements BiographyService {
         existingBiography.setDescription(biographyUpdateDto.getDescription());
         existingBiography.setUpdatedDate(biographyUpdateDto.getUpdatedDate());
         existingBiography.setData(biographyUpdateDto.getImage().getBytes());
-        String folder = "BiographyPhotos/";
-        Path path = Paths.get(folder+biographyUpdateDto.getImage().getOriginalFilename());
-        Files.write(path,biographyUpdateDto.getImage().getBytes());
+        Path path = Paths.get(BIOGRAPHY_IMAGE_PATH + biographyUpdateDto.getImage().getOriginalFilename());
+        Files.write(path, biographyUpdateDto.getImage().getBytes());
         return biographyRepository.save(existingBiography);
     }
 
@@ -79,8 +74,10 @@ public class BiographyServiceImpl implements BiographyService {
         return ResponseEntity.ok(new MessageResponse(message.getBiographyDeletedSuccessfully()));
     }
 
+    @Transactional
     @Override
-    public List<Biography> getBiographiesByUserId(Long id) {
-        return biographyRepository.findByUserId(id);
+    public Biography getBiographyByUserId(Long id) {
+        return (Biography) biographyRepository.findByUserId(id);
     }
+
 }

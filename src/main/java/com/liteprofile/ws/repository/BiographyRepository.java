@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BiographyRepository extends JpaRepository<Biography, Long> {
 
-    List<Biography> findByUserId(Long id);
+    Biography findByUserId(Long id);
 
 }

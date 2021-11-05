@@ -2,7 +2,6 @@ package com.liteprofile.ws.service.impl;
 
 import com.liteprofile.ws.model.Platform;
 import com.liteprofile.ws.model.SocialLink;
-import com.liteprofile.ws.repository.PlatformRepository;
 import com.liteprofile.ws.repository.SocialLinkRepository;
 import com.liteprofile.ws.service.PlatformService;
 import com.liteprofile.ws.service.SocialLinkService;

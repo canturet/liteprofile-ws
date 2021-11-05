@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserProfileResponse {
 
-    List<Biography> biographies;
+    Biography biography;
     List<CustomLink> customLinks;
     List<SocialLink> socialLinks;
     List<Text> texts;

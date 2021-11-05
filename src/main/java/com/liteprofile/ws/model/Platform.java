@@ -3,11 +3,12 @@ package com.liteprofile.ws.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
 
 @Data
 @NoArgsConstructor
@@ -17,10 +18,13 @@ public class Platform {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @NotNull(message = "'platformName' alanını giriniz.")
     private String platformName;
+
+    @Size(max = 200, message = "'description' alanı maksimum 200 karakterden oluşabilir.")
+    private String description;
 
     @Lob
     private byte[] data;
@@ -35,20 +39,14 @@ public class Platform {
 
     private String fileName;
 
-    public Platform(String platformName, String fileName, String platformType, byte[] data, LocalDateTime createdDate) {
+    public Platform(String platformName,String description, String fileName, String platformType, byte[] data, LocalDateTime createdDate, LocalDateTime updatedDate) {
         this.platformName = platformName;
+        this.description = description;
         this.fileName = fileName;
         this.platformType = platformType;
         this.data = data;
         this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-
-    }
 }

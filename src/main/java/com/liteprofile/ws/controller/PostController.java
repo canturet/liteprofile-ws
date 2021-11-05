@@ -39,173 +39,130 @@ public class PostController {
 
     @Autowired
     PlatformService platformService;
-    @GetMapping("/get-custom-link/{id}")
+
+    @GetMapping("/getCustomLinkById/{id}")
     public ResponseEntity<?> getCustomLinkById(@PathVariable Long id) {
         return ResponseEntity.ok(customLinkService.getCustomLinkById(id));
     }
 
-    @GetMapping("/get-custom-links")
+    @GetMapping("/getCustomLinks")
     public ResponseEntity<?> getCustomLinks() {
         return ResponseEntity.ok(customLinkService.getCustomLinks());
     }
 
-    @PostMapping("/create-custom-link")
+    @PostMapping("/createCustomLink")
     public ResponseEntity<?> createCustomLink(@Valid @RequestBody CustomLinkCreateDto customLinkCreateDto) {
         return ResponseEntity.ok(customLinkService.createCustomLink(customLinkCreateDto));
     }
 
-    @PutMapping("/update-custom-link/{id}")
+    @PutMapping("/updateCustomLink/{id}")
     public ResponseEntity<?> updateCustomLink(@Valid @PathVariable("id") Long id, @RequestBody CustomLinkUpdateDto customLinkUpdateDto) {
         return ResponseEntity.ok(customLinkService.updateCustomLink(id, customLinkUpdateDto));
     }
 
-    @DeleteMapping("/delete-custom-link/{id}")
+    @DeleteMapping("/deleteCustomLink/{id}")
     public ResponseEntity<?> deleteCustomLink(@PathVariable("id") Long id) {
         return ResponseEntity.ok(customLinkService.deleteCustomLink(id));
     }
 
-    @GetMapping("/get-social-link/{id}")
+    @GetMapping("/getSocialLinkById/{id}")
     public ResponseEntity<?> getSocialLinkById(@PathVariable Long id) {
         return ResponseEntity.ok(socialLinkService.getSocialLinkById(id));
     }
 
-    @GetMapping("/get-social-links")
+    @GetMapping("/getSocialLinks")
     public ResponseEntity<?> getSocialLinks() {
         return ResponseEntity.ok(socialLinkService.getSocialLinks());
     }
 
-    @PostMapping("/create-social-link")
+    @PostMapping("/createSocialLink")
     public ResponseEntity<?> createSocialLink(@Valid @RequestBody SocialLinkCreateDto socialLinkCreateDto) {
         return ResponseEntity.ok(socialLinkService.createSocialLink(socialLinkCreateDto));
     }
 
-    @PutMapping("/update-social-link/{id}")
+    @PutMapping("/updateSocialLink/{id}")
     public ResponseEntity<?> updateSocialLink(@Valid @PathVariable("id") Long id, @RequestBody SocialLinkUpdateDto socialLinkUpdateDto) {
         return ResponseEntity.ok(socialLinkService.updateSocialLink(id, socialLinkUpdateDto));
     }
 
-    @DeleteMapping("/delete-social-link/{id}")
+    @DeleteMapping("/deleteSocialLink/{id}")
     public ResponseEntity<?> deleteSocialLink(@PathVariable("id") Long id) {
         return ResponseEntity.ok(socialLinkService.deleteSocialLink(id));
     }
 
-    @GetMapping("/get-text/{id}")
+    @GetMapping("/getTextById/{id}")
     public ResponseEntity<?> getTextById(@PathVariable Long id) {
         return ResponseEntity.ok(textService.getTextById(id));
     }
 
-    @GetMapping("/get-texts")
+    @GetMapping("/getTexts")
     public ResponseEntity<?> getTexts() {
         return ResponseEntity.ok(textService.getTexts());
     }
 
-    @PostMapping("/create-text")
+    @PostMapping("/createText")
     public ResponseEntity<?> createText(@Valid @RequestBody TextCreateDto textCreateDto) {
         return ResponseEntity.ok(textService.createText(textCreateDto));
     }
 
-    @PutMapping("/update-text/{id}")
+    @PutMapping("/updateText/{id}")
     public ResponseEntity<?> updateText(@Valid @PathVariable("id") Long id, @RequestBody TextUpdateDto textUpdateDto) {
         return ResponseEntity.ok(textService.updateText(id, textUpdateDto));
     }
 
-    @DeleteMapping("/delete-text/{id}")
+    @DeleteMapping("/deleteText/{id}")
     public ResponseEntity<?> deleteText(@PathVariable("id") Long id) {
         return ResponseEntity.ok(textService.deleteText(id));
     }
 
-    @GetMapping("/get-video/{id}")
+    @GetMapping("/getVideoById/{id}")
     public ResponseEntity<?> getVideoById(@PathVariable Long id) {
         return ResponseEntity.ok(videoService.getVideoById(id));
     }
 
-    @GetMapping("/get-videos")
+    @GetMapping("/getVideos")
     public ResponseEntity<?> getVideos() {
         return ResponseEntity.ok(videoService.getVideos());
     }
 
-    @PostMapping("/create-video")
+    @PostMapping("/createVideo")
     public ResponseEntity<?> createVideo(@Valid @RequestBody VideoCreateDto videoCreateDto) {
         return ResponseEntity.ok(videoService.createVideo(videoCreateDto));
     }
 
-    @PutMapping("/update-video/{id}")
+    @PutMapping("/updateVideo/{id}")
     public ResponseEntity<?> updateVideo(@Valid @PathVariable("id") Long id, @RequestBody VideoUpdateDto videoUpdateDto) {
         return ResponseEntity.ok(videoService.updateVideo(id, videoUpdateDto));
     }
 
-    @DeleteMapping("/delete-video/{id}")
+    @DeleteMapping("/deleteVideo/{id}")
     public ResponseEntity<?> deleteVideo(@PathVariable("id") Long id) {
         return ResponseEntity.ok(videoService.deleteVideo(id));
     }
 
-    @GetMapping("/get-biography/{id}")
-    public ResponseEntity<?> getBiographyById(@PathVariable Long id) {return ResponseEntity.ok(biographyService.getBiographyById(id));}
+    @GetMapping("/getBiographyById/{id}")
+    public ResponseEntity<?> getBiographyById(@PathVariable Long id) {
+        return ResponseEntity.ok(biographyService.getBiographyById(id));
+    }
 
-    @GetMapping("/get-biographies")
+    @GetMapping("/getBiographies")
     public ResponseEntity<?> getBiographies() {
         return ResponseEntity.ok(biographyService.getBiographies());
     }
 
-    @PostMapping("/create-biography")
+    @PostMapping("/createBiography")
     public ResponseEntity<?> createBiography(@ModelAttribute BiographyCreateDto biographyCreateDto) throws IOException {
         return ResponseEntity.ok(biographyService.createBiography(biographyCreateDto));
     }
 
-    @PutMapping("/update-biography/{id}")
+    @PutMapping("/updateBiography/{id}")
     public ResponseEntity<?> updateBiography(@Valid @PathVariable("id") Long id, @ModelAttribute BiographyUpdateDto biographyUpdateDto) throws IOException {
         return ResponseEntity.ok(biographyService.updateBiography(id, biographyUpdateDto));
     }
 
-    @DeleteMapping("/delete-biography/{id}")
+    @DeleteMapping("/deleteBiography/{id}")
     public ResponseEntity<?> deleteBiography(@PathVariable("id") Long id) {
         return ResponseEntity.ok(biographyService.deleteBiography(id));
     }
 
-    @PostMapping("/create-platform")
-    public ResponseEntity<?> createPlatform(@ModelAttribute PlatformCreateDto platformCreateDto) throws IOException {
-        return ResponseEntity.ok(platformService.createPlatform(platformCreateDto));
-    }
-    @PutMapping("/update-platform/{id}")
-    public ResponseEntity<?> updatePlatform(@Valid @PathVariable("id") Long id,@ModelAttribute PlatformUpdateDto platformUpdateDto) throws IOException {
-        return ResponseEntity.ok(platformService.updatePlatform(id,platformUpdateDto));
-    }
-    @DeleteMapping("/delete-platform/{id}")
-    public ResponseEntity<?> deletePlatform(@PathVariable("id") Long id){
-        return ResponseEntity.ok(platformService.deletePlatform(id));
-    }
-    @GetMapping("/get-platforms")
-    public ResponseEntity<List<ResponseFile>> getPlatforms() {
-        List<ResponseFile> files = platformService.getAllFiles().map(dbFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("PlatformPhotos/")
-                    .path(dbFile.getId().toString())
-                    .toUriString();
-
-            return new ResponseFile(
-                    dbFile.getPlatformName(),
-                    fileDownloadUri,
-                    dbFile.getPlatformType(),
-                    dbFile.getData().length);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(files);
-    }
-
-    @GetMapping("/get-platform/{id}")
-    public ResponseFile
-    getPlatformById(@PathVariable Long id) {
-        Platform selectedPlatform = platformService.getPlatformById(id);
-        String fileDownloadUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("PlatformPhotos/")
-                .path(selectedPlatform.getId().toString())
-                .toUriString();
-       return new ResponseFile(
-               selectedPlatform.getPlatformName(),
-               fileDownloadUri,
-               selectedPlatform.getPlatformType(),
-               selectedPlatform.getData().length);
-    }
 }

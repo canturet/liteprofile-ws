@@ -1,11 +1,11 @@
 package com.liteprofile.ws.controller;
 
 import com.google.zxing.WriterException;
+import com.liteprofile.ws.service.AuthService;
 import com.liteprofile.ws.utils.payload.dto.LoginDto;
 import com.liteprofile.ws.utils.payload.dto.TokenRefreshDto;
 import com.liteprofile.ws.utils.payload.dto.RegisterDto;
 import com.liteprofile.ws.service.RefreshTokenService;
-import com.liteprofile.ws.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,27 +19,27 @@ import java.io.IOException;
 public class AuthController {
 
     @Autowired
-    UserService userService;
+    AuthService authService;
 
     @Autowired
     RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
-        return userService.login(loginDto);
+        return authService.login(loginDto);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDto registerDto) {
-        return userService.register(registerDto);
+        return authService.register(registerDto);
     }
 
-    @GetMapping("/confirm-account")
+    @GetMapping("/confirmAccount")
     public ResponseEntity<?> confirmAccount(@Valid @RequestParam("token") String token) throws IOException, WriterException {
-        return userService.confirmAccount(token);
+        return authService.confirmAccount(token);
     }
 
-    @PostMapping("/refresh-token")
+    @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshDto tokenRefreshDto) {
         return refreshTokenService.refreshToken(tokenRefreshDto);
     }
